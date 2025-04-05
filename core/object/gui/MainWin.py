@@ -6,6 +6,7 @@ import core.g_var as g_var
 
 from core.object.gui.widgets.MainTabView import MainTabView
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
+from core.object.gui.CoverWin import CoverWin
 
 class Main(ctk.CTk):
     def __init__(self):
@@ -28,7 +29,6 @@ class Main(ctk.CTk):
         self.bind("<ButtonPress-1>",MoveWin.on_drag_start)
         self.bind("<B1-Motion>",MoveWin.on_drag)
         self.bind("<ButtonRelease-1>",MoveWin.on_drag_stop)
-        # Login 窗口处理
         self.main_tab_view.add_tab("登录")
         self.main_tab_view.add_tab("设置")
         # 无边框
@@ -42,6 +42,27 @@ class Main(ctk.CTk):
         self.update_idletasks()
         self.attributes('-topmost', 'true')
         self.attributes('-topmost', 'false')
+        g_var.gui.cover_stack.append(CoverWin())
+        g_var.gui.cover_stack[0].geometry(f"+{self.winfo_x()+13}+{self.winfo_x()+49}")
+        self.main_tab_view.upTabCoverWin()
+
+    # Override
+    def mainloop(self, *args, **kwargs):
+        self.check_topmost()
+        super().mainloop(*args, **kwargs)
+
+    def check_topmost(self):
+        try:
+            # 获取当前最上面的窗口句柄
+            top_window = win32gui.GetForegroundWindow()
+            if top_window == self.hwnd:
+                win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
+                g_var.gui.cover_stack[0].attributes('-topmost', 'true')
+                g_var.gui.cover_stack[0].attributes('-topmost', 'false')
+        except:
+            pass
+        # 继续循环检查
+        self.after(30, self.check_topmost)
 
 class MoveWin:
 
@@ -63,6 +84,7 @@ class MoveWin:
             new_x=g_var.gui.main_win.winfo_x()+deltax
             new_y=g_var.gui.main_win.winfo_y()+deltay
             g_var.gui.main_win.geometry(f"+{new_x}+{new_y}")
+            g_var.gui.cover_stack[0].geometry(f"+{new_x+13}+{new_y+49}")
 
     # 处理鼠标释放事件
     def on_drag_stop(event):

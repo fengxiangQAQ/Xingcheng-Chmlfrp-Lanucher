@@ -1,8 +1,11 @@
 from typing import List
-from core.object.CoverParent import CoverParent
 
+import core.object.gui.CoverWin as CoverWin
 import core.object.gui.MainWin as MainWin
+import core.object.User as ObjectUser
 
 class gui:
-    cover_stack:List[CoverParent]=[]
+    cover_stack:List[CoverWin.CoverWin]=[]
     main_win:MainWin.Main=None
+
+User:ObjectUser.User

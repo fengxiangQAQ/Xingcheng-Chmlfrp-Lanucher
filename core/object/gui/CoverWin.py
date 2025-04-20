@@ -7,9 +7,9 @@ import core.g_var as g_var
 
 class CoverWin(ctk.CTkToplevel):
     def __init__(self, *args, fg_color = None, **kwargs):
-        super().__init__(g_var.gui.main_win,*args, fg_color=fg_color, **kwargs)
+        super().__init__(g_var.gui.main_win,*args, fg_color="#0000ff", **kwargs)
         self.CoverFrame:ctk.CTkFrame=ctk.CTkFrame(self)
-        self.geometry("783x418")
+        self.geometry("810x480")
         self.overrideredirect(True)
         self.hwnd = win32gui.GetParent(self.winfo_id())
         # 启用分层样式
@@ -24,5 +24,5 @@ class CoverWin(ctk.CTkToplevel):
     def setCoverFrame(self,newFrame:ctk.CTkFrame):
         self.CoverFrame.destroy()
         self.CoverFrame=newFrame
-        self.CoverFrame.place(x=0,y=0)
+        self.CoverFrame.place(x=13,y=49)
         self.update_idletasks()

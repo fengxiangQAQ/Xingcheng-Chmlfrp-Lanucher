@@ -43,7 +43,7 @@ class Main(ctk.CTk):
         self.attributes('-topmost', 'true')
         self.attributes('-topmost', 'false')
         g_var.gui.cover_stack.append(CoverWin())
-        g_var.gui.cover_stack[0].geometry(f"+{self.winfo_x()+13}+{self.winfo_x()+49}")
+        g_var.gui.cover_stack[0].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
         self.main_tab_view.upTabCoverWin()
 
     # Override
@@ -84,9 +84,10 @@ class MoveWin:
             new_x=g_var.gui.main_win.winfo_x()+deltax
             new_y=g_var.gui.main_win.winfo_y()+deltay
             g_var.gui.main_win.geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[0].geometry(f"+{new_x+13}+{new_y+49}")
+            g_var.gui.cover_stack[0].geometry(f"+{new_x}+{new_y}")
 
     # 处理鼠标释放事件
     def on_drag_stop(event):
         MoveWin.winx=0
         MoveWin.winy=0
+        g_var.gui.cover_stack[0].attributes('-topmost', 'false')

@@ -42,7 +42,7 @@ class LoginMain(ctk.CTkFrame):
             # TODO 自动下载frpc
             if data is not None:
                 data["token"]=self.token
-                User=User(data)
+                g_var.User=User(data)
                 #Image.open(BytesIO(requests.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
                 #upLoginAfter()
             else:
@@ -54,26 +54,36 @@ class LoginMain(ctk.CTkFrame):
 
     def userLogin(self):
         self.login_B.configure(text="登录中...",state="disabled")
-        try:
-            data=APIv2.login(self.input.usernameEntry.get(),self.input.passwordEntey.get())
+
+        data=APIv2.login(self.input.usernameEntry.get(),self.input.passwordEntey.get())
             # TODO 自动下载frpc
-            if data is not None:
-                User=User(data)
+        if data is not None:
+            g_var.User=User(data)
                 #Image.open(BytesIO(requests.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
-                if self.ckb_KeepLogin.get()==1:
-                    with open("./XCL/LoginData.json","w") as file:
-                        file.write(json.dumps({
-                            "status":True,
-                            "token":data["usertoken"]
-                        }))
-                        file.close()
-                #upLoginAfter()
-            else:
-                self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="账号密码错误",font=("微软雅黑",12.6),text_color="#ff0000")
-        except:
-            self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="网络请求错误",font=("微软雅黑",12.6),text_color="#ff0000")
+                # if self.ckb_KeepLogin.get()==1:
+                #     with open("./XCL/LoginData.json","w") as file:
+                #         file.write(json.dumps({
+                #             "status":True,
+                #             "token":data["usertoken"]
+                #         }))
+                #         file.close()
+            self.upLoginAfter()
+        else:
+            self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="账号密码错误",font=("微软雅黑",12.6),text_color="#ff0000")
+        # except:
+        #     self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="网络请求错误",font=("微软雅黑",12.6),text_color="#ff0000")
         self.tip.place(x=176,y=183)
         self.login_B.configure(text="登录",state="normal")
+    
+    def upLoginAfter(self):
+        g_var.gui.main_win.main_tab_view.delete("登录")
+        g_var.gui.main_win.main_tab_view.delete("设置")
+        g_var.gui.main_win.main_tab_view.add_tab("Home")
+        g_var.gui.main_win.main_tab_view.add_tab("隧道管理")
+        g_var.gui.main_win.main_tab_view.add_tab("设置")
+        g_var.gui.main_win.main_tab_view.set("Home")
+        g_var.User.updateTunnel()
+        g_var.gui.main_win.main_tab_view.upTabCoverWin()
 
 class LoginInput(ctk.CTkFrame):
     def __init__(self,master):

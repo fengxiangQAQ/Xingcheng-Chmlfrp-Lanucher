@@ -5,11 +5,15 @@ from PIL import ImageTk,Image
 from core import g_var
 
 from core.object.gui.page.Login import LoginFrame
+from core.object.gui.page.Home import homeFrame
+from core.object.gui.page.TunnelManager import tunnelManagerFrame
 
 class MainTabView(ctk.CTkTabview):
 
     mainTabMap={
         "登录":LoginFrame,
+        "Home":homeFrame,
+        "隧道管理":tunnelManagerFrame,
     }
 
     def __init__(self,master):

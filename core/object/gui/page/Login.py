@@ -1,5 +1,4 @@
 import customtkinter as ctk
-import requests
 import json
 import os.path
 
@@ -8,6 +7,7 @@ import core.g_var as g_var
 from io import BytesIO
 from PIL import Image
 from core.object.User import User
+from core.network.requests import request
 from core.network.ChmlfrpApi import APIv2
 
 class LoginFrame(ctk.CTkFrame):
@@ -43,7 +43,7 @@ class LoginMain(ctk.CTkFrame):
             if data is not None:
                 data["token"]=self.token
                 g_var.User=User(data)
-                #Image.open(BytesIO(requests.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
+                #Image.open(BytesIO(request.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
                 #upLoginAfter()
             else:
                 self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="自动登录:token已失效",font=("微软雅黑",12.6),text_color="#ff0000")
@@ -59,7 +59,7 @@ class LoginMain(ctk.CTkFrame):
             # TODO 自动下载frpc
         if data is not None:
             g_var.User=User(data)
-                #Image.open(BytesIO(requests.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
+                #Image.open(BytesIO(request.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
                 # if self.ckb_KeepLogin.get()==1:
                 #     with open("./XCL/LoginData.json","w") as file:
                 #         file.write(json.dumps({

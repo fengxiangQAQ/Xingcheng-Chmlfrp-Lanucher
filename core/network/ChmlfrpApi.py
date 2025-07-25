@@ -1,9 +1,9 @@
-import requests
+from core.network.requests import request
 
 class APIv2:
     url="https://cf-v2.uapis.cn"
     def login(username:str,password:str)->dict:
-        data=requests.get(APIv2.url+"/login",{
+        data=request.get(APIv2.url+"/login",{
             "username":username,
             "password":password
         }).json()
@@ -12,7 +12,7 @@ class APIv2:
         else:
             return None
     def getUserTunnelList(usertoken:str)->dict:
-        data=requests.get(APIv2.url+"/tunnel",{
+        data=request.get(APIv2.url+"/tunnel",{
             "token":usertoken
         }).json()
         if data["code"]==200:
@@ -23,7 +23,7 @@ class APIv2:
         else:
             return None
     def getUserInfo(usertoken:str)->dict:
-        data=requests.get(APIv2.url+"/userinfo",{
+        data=request.get(APIv2.url+"/userinfo",{
             "token":usertoken
         }).json()
         if data["code"]==200:
@@ -34,7 +34,7 @@ class APIv2:
 class APIv1:
     url="https://cf-v1.uapis.cn"
     def reToken(usertoken:str)->str:
-        data:dict=requests.get(APIv1.url+"/userinfo",{
+        data:dict=request.get(APIv1.url+"/userinfo",{
             "token":usertoken
         }).json()
         if "newToken" in data.keys():

@@ -6,10 +6,10 @@ import json as p_json
 class re_requests:
 
     def __init__(self,re_requests:http.client.HTTPResponse):
-        self.re_requests=re_requests.read()
+        self.content=re_requests.read()
 
     def json(self)->str:
-        return p_json.loads(self.re_requests)
+        return p_json.loads(self.content)
 
 class request:
 

@@ -12,8 +12,8 @@ class upMenuButton(ctk.CTkFrame):
         self.chooseid=None
         self.menuObj:MenuFrame=None
         self.master:ctk.CTkFrame=master
-        self.mainButton:ctk.CTkButton=CTkButtonG(self,text=self.text,height=43,noCorner="right",state="disabled",command=self.startFrp)
-        self.menuButton:ctk.CTkButton=CTkButtonG(self,text="⇧",font=("微软雅黑",20,"bold"),height=43,width=25,fg_color="#48AA9B",noCorner="left",command=self.menuOperation)
+        self.mainButton:ctk.CTkButton=CTkButtonG(self,text=self.text,height=43,noCorner="right",state="disabled",command=self.startFrp,AA=False)
+        self.menuButton:ctk.CTkButton=CTkButtonG(self,text="⇧",font=("微软雅黑",20,"bold"),height=43,width=25,fg_color="#48AA9B",noCorner="left",command=self.menuOperation,AA=False)
         self.mainButton.pack(side="left")
         self.menuButton.pack(side="left")
     def menuOperation(self):
@@ -23,7 +23,7 @@ class upMenuButton(ctk.CTkFrame):
             self.menuButton.configure(text="⇧")
         else:
             self.menuObj=MenuFrame(self)
-            self.menuObj.place(x=self.winfo_x(),y=self.winfo_y()-210)
+            self.menuObj.place(x=self.winfo_x()+13,y=self.winfo_y()-163)
             self.menuStatus=True
             self.menuButton.configure(text="⇩")
     def startFrp(self):

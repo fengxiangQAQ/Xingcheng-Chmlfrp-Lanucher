@@ -7,12 +7,14 @@ import core.g_var as g_var
 from io import BytesIO
 from PIL import Image
 from core.object.User import User
-from core.network.requests import request
-from core.network.ChmlfrpApi import APIv2
+from core.utils.network.requests import request
+from core.utils.network.ChmlfrpApi import APIv2
+from core.utils.image.AvatarCircler import AvatarCircler
+from core.object.gui.widgets.CTkFrameG import CTkFrameG
 
-class LoginFrame(ctk.CTkFrame):
+class LoginFrame(CTkFrameG):
     def __init__(self,master):
-        super().__init__(master,width=785,height=418,corner_radius=0,fg_color="#0000ff")
+        super().__init__(master,width=785,height=418,corner_radius=0,fg_color="#0000ff",AA=False)
         token=None
         if os.path.isfile("./XCL/LoginData.json"):
             data=json.loads(open("./XCL/LoginData.json","r").read())
@@ -59,7 +61,8 @@ class LoginMain(ctk.CTkFrame):
             # TODO 自动下载frpc
         if data is not None:
             g_var.User=User(data)
-                #Image.open(BytesIO(request.get(User.basicInfo["userimg"]).content)).save("./XCL/userimg.png",'PNG')
+            img=Image.open(BytesIO(request.get(g_var.User.basicInfo["userimg"]).content))
+            AvatarCircler(img).save("./XCL/userimg.png",'PNG')
                 # if self.ckb_KeepLogin.get()==1:
                 #     with open("./XCL/LoginData.json","w") as file:
                 #         file.write(json.dumps({
@@ -86,7 +89,7 @@ class LoginMain(ctk.CTkFrame):
         g_var.gui.main_win.main_tab_view.upTabCoverWin()
 
 class LoginInput(ctk.CTkFrame):
-    def __init__(self,master):
+    def __init__(self,master:LoginMain):
         super().__init__(master)
         ctk.CTkLabel(self,text="用户名：",font=("微软雅黑",16.5)).grid(row=0,column=0)
         ctk.CTkLabel(self,text="密   码：",font=("微软雅黑",16.5)).grid(row=1,column=0)

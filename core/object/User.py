@@ -1,4 +1,4 @@
-from core.network.ChmlfrpApi import APIv2
+from core.utils.network.ChmlfrpApi import APIv2
 
 class User:
     TunnelDict:dict={}

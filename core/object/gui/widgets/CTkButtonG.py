@@ -36,6 +36,7 @@ class CTkButtonG(ctk.CTkButton):
                  compound: str = "left",
                  anchor: str = "center",
                  noCorner=None,
+                 AA=True,
                  **kwargs):
 
         # transfer basic functionality (bg_color, size, appearance_mode, scaling) to CTkBaseClass
@@ -87,7 +88,7 @@ class CTkButtonG(ctk.CTkButton):
                                  width=self._apply_widget_scaling(self._desired_width),
                                  height=self._apply_widget_scaling(self._desired_height))
         self._canvas.grid(row=0, column=0, rowspan=5, columnspan=5, sticky="nsew")
-        self._draw_engine = DrawEngineG(canvas=self._canvas,noCorner=noCorner)
+        self._draw_engine = DrawEngineG(canvas=self._canvas,noCorner=noCorner,AA=AA)
         self._draw_engine.set_round_to_even_numbers(self._round_width_to_even_numbers, self._round_height_to_even_numbers)  # rendering options
 
         # configure cursor and initial draw

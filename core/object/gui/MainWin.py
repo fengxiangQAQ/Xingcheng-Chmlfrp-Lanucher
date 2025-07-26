@@ -59,6 +59,7 @@ class Main(ctk.CTk):
                 win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
                 g_var.gui.cover_stack[0].attributes('-topmost', 'true')
                 g_var.gui.cover_stack[0].attributes('-topmost', 'false')
+                g_var.gui.cover_stack[0].focus_set()
         except:
             pass
         # 继续循环检查

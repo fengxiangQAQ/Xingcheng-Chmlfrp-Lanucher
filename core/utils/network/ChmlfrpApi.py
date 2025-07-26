@@ -1,9 +1,12 @@
-from core.network.requests import request
+from core.utils.network.requests import request
 
 class APIv2:
+
     url="https://cf-v2.uapis.cn"
-    def login(username:str,password:str)->dict:
-        data=request.get(APIv2.url+"/login",{
+
+    @classmethod
+    def login(cls,username:str,password:str)->dict:
+        data=request.get(cls.url+"/login",{
             "username":username,
             "password":password
         }).json()
@@ -11,8 +14,9 @@ class APIv2:
             return data["data"]
         else:
             return None
-    def getUserTunnelList(usertoken:str)->dict:
-        data=request.get(APIv2.url+"/tunnel",{
+    @classmethod
+    def getUserTunnelList(cls,usertoken:str)->dict:
+        data=request.get(cls.url+"/tunnel",{
             "token":usertoken
         }).json()
         if data["code"]==200:
@@ -22,8 +26,10 @@ class APIv2:
             return redata
         else:
             return None
-    def getUserInfo(usertoken:str)->dict:
-        data=request.get(APIv2.url+"/userinfo",{
+    
+    @classmethod
+    def getUserInfo(cls,usertoken:str)->dict:
+        data=request.get(cls.url+"/userinfo",{
             "token":usertoken
         }).json()
         if data["code"]==200:
@@ -32,9 +38,12 @@ class APIv2:
             return None
         
 class APIv1:
+    
     url="https://cf-v1.uapis.cn"
-    def reToken(usertoken:str)->str:
-        data:dict=request.get(APIv1.url+"/userinfo",{
+
+    @classmethod
+    def reToken(cls,usertoken:str)->str:
+        data:dict=request.get(cls.url+"/userinfo",{
             "token":usertoken
         }).json()
         if "newToken" in data.keys():

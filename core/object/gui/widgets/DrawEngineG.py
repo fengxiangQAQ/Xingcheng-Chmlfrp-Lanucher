@@ -7,9 +7,12 @@ from typing import Union
 class DrawEngineG(ctk.DrawEngine):
 
     # Override
-    def __init__(self,noCorner=None,**kwargs):
+    def __init__(self,noCorner=None,AA=True,**kwargs):
         self.noCorner=noCorner
+        if not AA:
+            self.preferred_drawing_method="circle_shapes"
         super().__init__(**kwargs)
+
     def __calc_optimal_corner_radius(self, user_corner_radius: Union[float, int]) -> Union[float, int]:
         # optimize for drawing with polygon shapes
         if self.preferred_drawing_method == "polygon_shapes":
@@ -212,4 +215,86 @@ class DrawEngineG(ctk.DrawEngine):
             self._canvas.tag_lower("border_parts")
             self._canvas.tag_lower("background_parts")
 
+        return requires_recoloring
+    
+    def __draw_rounded_rect_with_border_circle_shapes(self, width: int, height: int, corner_radius: int, border_width: int, inner_corner_radius: int) -> bool:
+        requires_recoloring = False
+
+        # border button parts
+        if border_width > 0:
+            if corner_radius > 0:
+
+                if not self._canvas.find_withtag("border_oval_1"):
+                    self._canvas.create_oval(0, 0, 0, 0, tags=("border_oval_1", "border_corner_part", "border_parts"), width=0)
+                    self._canvas.create_oval(0, 0, 0, 0, tags=("border_oval_2", "border_corner_part", "border_parts"), width=0)
+                    self._canvas.create_oval(0, 0, 0, 0, tags=("border_oval_3", "border_corner_part", "border_parts"), width=0)
+                    self._canvas.create_oval(0, 0, 0, 0, tags=("border_oval_4", "border_corner_part", "border_parts"), width=0)
+                    self._canvas.tag_lower("border_parts")
+                    requires_recoloring = True
+
+                self._canvas.coords("border_oval_1", 0, 0, corner_radius * 2 - 1, corner_radius * 2 - 1)
+                self._canvas.coords("border_oval_2", width - corner_radius * 2, 0, width - 1, corner_radius * 2 - 1)
+                self._canvas.coords("border_oval_3", 0, height - corner_radius * 2, corner_radius * 2 - 1, height - 1)
+                self._canvas.coords("border_oval_4", width - corner_radius * 2, height - corner_radius * 2, width - 1, height - 1)
+
+            else:
+                self._canvas.delete("border_corner_part")
+
+            if not self._canvas.find_withtag("border_rectangle_1"):
+                self._canvas.create_rectangle(0, 0, 0, 0, tags=("border_rectangle_1", "border_rectangle_part", "border_parts"), width=0)
+                self._canvas.create_rectangle(0, 0, 0, 0, tags=("border_rectangle_2", "border_rectangle_part", "border_parts"), width=0)
+                self._canvas.tag_lower("border_parts")
+                requires_recoloring = True
+
+            self._canvas.coords("border_rectangle_1", (0, corner_radius, width, height - corner_radius))
+            self._canvas.coords("border_rectangle_2", (corner_radius, 0, width - corner_radius, height))
+
+        else:
+            self._canvas.delete("border_parts")
+
+        # inner button parts
+        if inner_corner_radius > 0:
+
+            if not self._canvas.find_withtag("inner_oval_1"):
+                self._canvas.create_oval(0, 0, 0, 0, tags=("inner_oval_1", "inner_corner_part", "inner_parts"), width=0)
+                self._canvas.create_oval(0, 0, 0, 0, tags=("inner_oval_2", "inner_corner_part", "inner_parts"), width=0)
+                self._canvas.create_oval(0, 0, 0, 0, tags=("inner_oval_3", "inner_corner_part", "inner_parts"), width=0)
+                self._canvas.create_oval(0, 0, 0, 0, tags=("inner_oval_4", "inner_corner_part", "inner_parts"), width=0)
+                self._canvas.tag_raise("inner_parts")
+                requires_recoloring = True
+
+            self._canvas.coords("inner_oval_1", (border_width, border_width,
+                                                 border_width + inner_corner_radius * 2 - 1, border_width + inner_corner_radius * 2 - 1))
+            self._canvas.coords("inner_oval_2", (width - border_width - inner_corner_radius * 2, border_width,
+                                                 width - border_width - 1, border_width + inner_corner_radius * 2 - 1))
+            self._canvas.coords("inner_oval_3", (border_width, height - border_width - inner_corner_radius * 2,
+                                                 border_width + inner_corner_radius * 2 - 1, height - border_width - 1))
+            self._canvas.coords("inner_oval_4", (width - border_width - inner_corner_radius * 2, height - border_width - inner_corner_radius * 2,
+                                                 width - border_width - 1, height - border_width - 1))
+        else:
+            self._canvas.delete("inner_corner_part")  # delete inner corner parts if not needed
+
+        if not self._canvas.find_withtag("inner_rectangle_1"):
+            self._canvas.create_rectangle(0, 0, 0, 0, tags=("inner_rectangle_1", "inner_rectangle_part", "inner_parts"), width=0)
+            self._canvas.create_rectangle(0, 0, 0, 0, tags=("inner_rectangle_2", "inner_rectangle_part", "inner_parts"), width=0)
+            self._canvas.tag_raise("inner_parts")
+            requires_recoloring = True
+
+        if self.noCorner == "left":left=0
+        else:left=inner_corner_radius
+        if self.noCorner == "right":right=0
+        else:right=inner_corner_radius
+        if self.noCorner == "top":top=0
+        else:top=inner_corner_radius
+        if self.noCorner == "bottom":bottom=0
+        else:bottom=inner_corner_radius
+        # change position of inner rectangle parts
+        self._canvas.coords("inner_rectangle_1", (border_width + left,
+                                                  border_width,
+                                                  width - border_width - right,
+                                                  height - border_width))
+        self._canvas.coords("inner_rectangle_2", (border_width,
+                                                  border_width + top,
+                                                  width - border_width,
+                                                  height - bottom - border_width))
         return requires_recoloring

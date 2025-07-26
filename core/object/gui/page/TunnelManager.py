@@ -3,9 +3,9 @@ import win32clipboard
 
 from core.object.gui.widgets.PanelButton import PanelBButton,PanelRButton
 #from core.object.gui.widgets.tip_cover import TipCover
-#from core.Functions.startFrpc import startFrpc
 from core.object.gui.widgets.CTkFrameG import CTkFrameG
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
+from core.utils.runFrpc import runFrpc
 import core.g_var
 
 class tunnelManagerFrame(ctk.CTkFrame):
@@ -46,12 +46,11 @@ class tunnelCard(CTkFrameG):
         cUrlLabel.bind("<ButtonPress-1>",self.copyUrl)
         cUrlLabel.place(x=13,y=77)
         #self.tip:TipCover=TipCover(self,cUrlLabel,text="点击以复制")
-        #PanelBButton(self,text="启动隧道",width=219,command=self.startFrp).place(x=13,y=108)
-        PanelBButton(self,text="启动隧道",width=219).place(x=13,y=108)
+        PanelBButton(self,text="启动隧道",width=219,command=self.startFrp).place(x=13,y=108)
         PanelRButton(self,text="删除隧道",width=219).place(x=13,y=143)
 
-    # def startFrp(self):
-    #     startFrpc(self.tun_id)
+    def startFrp(self):
+        runFrpc(frpcPath="./res/frpc.exe",runDir=".\XCL",userToken=core.g_var.User.token,tunnelID=self.tun_id)
         
     def copyUrl(self,arg):
         # self.tip.ctext("已复制")

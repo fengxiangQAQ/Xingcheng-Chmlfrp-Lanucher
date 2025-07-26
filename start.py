@@ -1,4 +1,5 @@
 import os
+import urllib.request
 import customtkinter as ctk
 
 from core.g_var import gui
@@ -9,6 +10,9 @@ def init():
     ctk.set_default_color_theme("./res/xcTheme.json")
     if not os.path.isdir("./XCL"):
         os.mkdir("./XCL")
+    urllib.request.install_opener(urllib.request.build_opener(
+        urllib.request.ProxyHandler({})  # 禁用代理
+    )) 
 
 if __name__ == "__main__":
     init()

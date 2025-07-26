@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import core.g_var
 
-from PIL import Image,ImageTk
+from PIL import Image
 from core.object.gui.widgets.PanelButton import PanelRButton
 from core.object.gui.widgets.UpMenuButton import upMenuButton
 
@@ -15,7 +15,7 @@ class sidebarFrame(ctk.CTkFrame):
     def __init__(self,master):
         super().__init__(master,height=418,width=225,corner_radius=0)
         self.pack_propagate(0)
-        ctk.CTkLabel(self,text="",image=ImageTk.PhotoImage(Image.open("./XCL/userimg.png").resize((70,70)))).pack(pady=(15,0))
+        ctk.CTkLabel(self,text="",image=ctk.CTkImage(light_image=Image.open("./XCL/userimg.png").resize((70,70)),size=(70,70))).pack(pady=(15,0))
         self.name=ctk.CTkFrame(self)
         self.name.pack()
         ctk.CTkLabel(self.name,text=core.g_var.User.basicInfo["username"],font=("微软雅黑",16)).pack(side="left")

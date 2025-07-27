@@ -10,8 +10,6 @@ class upMenuButton(ctk.CTkFrame):
         super().__init__(master,fg_color="#0000ff")
         self.text=text
         self.menuStatus=False
-        self.chooseid=None
-        self.menuObj:MenuFrame=None
         self.master:ctk.CTkFrame=master
         self.mainButton:ctk.CTkButton=CTkButtonG(self,text=self.text,height=43,noCorner="right",state="disabled",command=self.startFrp,AA=False)
         self.menuButton:ctk.CTkButton=CTkButtonG(self,text="⇧",font=("微软雅黑",20,"bold"),height=43,width=25,fg_color="#48AA9B",noCorner="left",command=self.menuOperation,AA=False)
@@ -33,7 +31,7 @@ class upMenuButton(ctk.CTkFrame):
 class MenuFrame(CTkScrollableFrameFrame):
     def __init__(self,master:upMenuButton):
         self.smaster=master
-        super().__init__(core.g_var.gui.main_win,width=142)
+        super().__init__(core.g_var.gui.cover_stack[0],width=142)
         for options in core.g_var.User.TunnelDict.keys():
             Options(self.ScrollableFrame,self,core.g_var.User.TunnelDict[options]).pack(anchor=ctk.W,pady=3)
 

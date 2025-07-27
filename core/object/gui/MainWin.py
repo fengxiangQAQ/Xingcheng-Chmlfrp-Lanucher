@@ -7,6 +7,7 @@ import core.g_var as g_var
 from core.object.gui.widgets.MainTabView import MainTabView
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
 from core.object.gui.CoverWin import CoverWin
+from core.WinManager import MoveWin,top_win
 
 class Main(ctk.CTk):
     def __init__(self):
@@ -56,39 +57,8 @@ class Main(ctk.CTk):
             # 获取当前最上面的窗口句柄
             top_window = win32gui.GetForegroundWindow()
             if top_window == self.hwnd:
-                win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
-                g_var.gui.cover_stack[0].attributes('-topmost', 'true')
-                g_var.gui.cover_stack[0].attributes('-topmost', 'false')
-                g_var.gui.cover_stack[0].focus_set()
+                top_win(None)
         except:
             pass
         # 继续循环检查
         self.after(30, self.check_topmost)
-
-class MoveWin:
-
-    winx=0
-    winy=0
-
-    # 处理鼠标按下事件
-    def on_drag_start(event):
-        # 识别按下位置
-        if str(event.widget)==".!maintabview" or str(event.widget)==".!maintabview.!ctkcanvas" or str(event.widget)==".!ctklabel.!label":
-            MoveWin.winx=event.x
-            MoveWin.winy=event.y
-
-    # 处理鼠标移动事件
-    def on_drag(event):
-        if MoveWin.winy!=0:
-            deltax=event.x-MoveWin.winx
-            deltay=event.y-MoveWin.winy
-            new_x=g_var.gui.main_win.winfo_x()+deltax
-            new_y=g_var.gui.main_win.winfo_y()+deltay
-            g_var.gui.main_win.geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[0].geometry(f"+{new_x}+{new_y}")
-
-    # 处理鼠标释放事件
-    def on_drag_stop(event):
-        MoveWin.winx=0
-        MoveWin.winy=0
-        g_var.gui.cover_stack[0].attributes('-topmost', 'false')

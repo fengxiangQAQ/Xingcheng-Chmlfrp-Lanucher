@@ -4,6 +4,7 @@ import win32api
 import customtkinter as ctk
 
 import core.g_var as g_var
+from core.WinManager import top_win
 
 class CoverWin(ctk.CTkToplevel):
     def __init__(self, *args, fg_color = None, **kwargs):
@@ -11,6 +12,7 @@ class CoverWin(ctk.CTkToplevel):
         self.CoverFrame:ctk.CTkFrame=ctk.CTkFrame(self)
         self.geometry("810x480")
         self.overrideredirect(True)
+        self.bind("<ButtonPress-1>",top_win)
         self.hwnd = win32gui.GetParent(self.winfo_id())
         # 启用分层样式
         win32gui.SetWindowLong(

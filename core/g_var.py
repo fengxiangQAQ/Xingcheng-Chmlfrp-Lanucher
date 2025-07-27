@@ -9,3 +9,4 @@ class gui:
     main_win:MainWin.Main=None
 
 User:ObjectUser.User
+lanucherConfig:dict=None

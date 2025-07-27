@@ -30,7 +30,7 @@ class MainTabView(ctk.CTkTabview):
 
     def add_tab(self,name:str):
         self.add(name)
-        ctk.CTkLabel(self.tab(name),text="",image=ctk.CTkImage(light_image=Image.open("./res/bg.jpg").resize((810,450)),size=(810,450))).place(x=0,y=0)
+        ctk.CTkLabel(self.tab(name),text="",image=ctk.CTkImage(light_image=Image.open(g_var.lanucherConfig["bg_path"]).resize((810,450)),size=(810,450))).place(x=0,y=0)
 
     def upTabCoverWin(self):
         g_var.gui.cover_stack[0].setCoverFrame(self.mainTabMap[self.get()](g_var.gui.cover_stack[0]))

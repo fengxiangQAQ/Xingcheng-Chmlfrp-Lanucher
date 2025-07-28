@@ -30,9 +30,10 @@ class sidebarFrame(ctk.CTkFrame):
 
     def callback(self,b):
         if b:
-            core.g_var.lanucherConfig.pop("user_token")
-            with open("./XCL/config.json","w") as file:
-                file.write(json.dumps(core.g_var.lanucherConfig))
+            if "user_token" in core.g_var.lanucherConfig.keys():
+                core.g_var.lanucherConfig.pop("user_token")
+                with open("./XCL/config.json","w") as file:
+                    file.write(json.dumps(core.g_var.lanucherConfig))
             core.g_var.gui.main_win.destroy()
 
 class userInfoFrame(ctk.CTkFrame):

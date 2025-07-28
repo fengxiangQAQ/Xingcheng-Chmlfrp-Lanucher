@@ -35,6 +35,7 @@ jobs:
           follow-imports: true
           mode: standalone
           include-data-dir: res=res 
+          include-data-files: res/frpc.exe=res/frpc.exe
           enable-plugins: tk-inter
 
       # Uploads artifact

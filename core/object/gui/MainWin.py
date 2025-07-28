@@ -1,5 +1,7 @@
 import win32gui
 import win32con
+import win32api
+import win32process
 import customtkinter as ctk
 
 import core.g_var as g_var
@@ -7,6 +9,7 @@ import core.g_var as g_var
 from core.object.gui.widgets.MainTabView import MainTabView
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
 from core.object.gui.CoverWin import CoverWin
+from core.object.gui.page import Mask
 from core.WinManager import MoveWin,top_win
 
 class Main(ctk.CTk):
@@ -44,13 +47,33 @@ class Main(ctk.CTk):
         self.attributes('-topmost', 'true')
         self.attributes('-topmost', 'false')
         g_var.gui.cover_stack.append(CoverWin())
+        g_var.gui.cover_stack.append(CoverWin(WINalpha=66))
+        g_var.gui.cover_stack.append(CoverWin(WINalpha=255))
+        g_var.gui.cover_stack.append(CoverWin())
         g_var.gui.cover_stack[0].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
+        g_var.gui.cover_stack[1].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
+        g_var.gui.cover_stack[2].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
+        g_var.gui.cover_stack[3].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
+        g_var.gui.mask=Mask.MaskFrame(g_var.gui.cover_stack[1])
+        g_var.gui.cover_stack[1].setCoverFrame(g_var.gui.mask)
         self.main_tab_view.upTabCoverWin()
 
     # Override
     def mainloop(self, *args, **kwargs):
         self.check_topmost()
         super().mainloop(*args, **kwargs)
+
+    # Override
+    def destroy(self):
+        # 获取进程ID
+        _, pid = win32process.GetWindowThreadProcessId(self.hwnd)
+        
+        # 打开进程
+        handle = win32api.OpenProcess(win32con.PROCESS_TERMINATE, 0, pid)
+        
+        # 终止进程
+        win32api.TerminateProcess(handle, 0)
+        win32api.CloseHandle(handle)
 
     def check_topmost(self):
         try:

@@ -21,8 +21,7 @@ class sidebarFrame(ctk.CTkFrame):
         ctk.CTkLabel(self.name,text=core.g_var.User.basicInfo["username"],font=("微软雅黑",16)).pack(side="left")
         ctk.CTkLabel(self.name,text=f"#{core.g_var.User.id}",font=("微软雅黑",16),text_color="#808080").pack(side="left",padx=3)
         userInfoFrame(self).pack(pady=(16,0))
-        # TODO重置token
-        PanelRButton(self,text="重置token").pack(pady=(16,0))
+        PanelRButton(self,text="退出登录").pack(pady=(16,0))
 
 class userInfoFrame(ctk.CTkFrame):
     def __init__(self,master):

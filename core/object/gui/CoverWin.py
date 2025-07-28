@@ -7,7 +7,7 @@ import core.g_var as g_var
 from core.WinManager import top_win
 
 class CoverWin(ctk.CTkToplevel):
-    def __init__(self, *args, fg_color = None, **kwargs):
+    def __init__(self,WINalpha:int=218,*args, fg_color = None, **kwargs):
         super().__init__(g_var.gui.main_win,*args, fg_color="#0000ff", **kwargs)
         self.CoverFrame:ctk.CTkFrame=ctk.CTkFrame(self)
         self.geometry("810x480")
@@ -20,7 +20,7 @@ class CoverWin(ctk.CTkToplevel):
             win32con.GWL_EXSTYLE,
             win32gui.GetWindowLong(self.hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED
         )
-        win32gui.SetLayeredWindowAttributes(self.hwnd, win32api.RGB(*(0,0,255)), 218, win32con.LWA_ALPHA | win32con.LWA_COLORKEY)
+        win32gui.SetLayeredWindowAttributes(self.hwnd, win32api.RGB(*(0,0,255)), WINalpha, win32con.LWA_ALPHA | win32con.LWA_COLORKEY)
         self.update_idletasks()
     
     def setCoverFrame(self,newFrame:ctk.CTkFrame):

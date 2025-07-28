@@ -9,6 +9,7 @@ from core.utils.network.requests import request
 from core.utils.network.ChmlfrpApi import APIv2
 from core.utils.image.AvatarCircler import AvatarCircler
 from core.object.gui.widgets.CTkFrameG import CTkFrameG
+from core.object.gui.popWIN.ConfirmPopWin import ConfirmPopWin
 
 class LoginFrame(CTkFrameG):
     def __init__(self,master):
@@ -56,15 +57,21 @@ class LoginMain(ctk.CTkFrame):
             img=Image.open(BytesIO(request.get(g_var.User.basicInfo["userimg"]).content))
             AvatarCircler(img).save("./XCL/userimg.png",'PNG')
             if self.ckb_KeepLogin.get()==1:
-                g_var.lanucherConfig["user_token"]=g_var.User.token
-                with open("./XCL/config.json","w") as file:
-                    file.write(json.dumps(g_var.lanucherConfig))
-            self.upLoginAfter()
+                g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(g_var.gui.cover_stack[2],"将保存您的token以用于保持登录 您是否同意?\n注 重置token将无法保持登录",callbackFun=self.KeepLogin))
+            else:
+                self.upLoginAfter()
         else:
             self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="账号密码错误",font=("微软雅黑",12.6),text_color="#ff0000")
         self.tip.place(x=176,y=183)
         self.login_B.configure(text="登录",state="normal")
-    
+
+    def KeepLogin(self,b:bool):
+        if b:
+            g_var.lanucherConfig["user_token"]=g_var.User.token
+            with open("./XCL/config.json","w") as file:
+                file.write(json.dumps(g_var.lanucherConfig))
+        self.upLoginAfter()
+
     def upLoginAfter(self):
         g_var.gui.main_win.main_tab_view.delete("登录")
         g_var.gui.main_win.main_tab_view.delete("设置")

@@ -26,6 +26,9 @@ class MoveWin:
             new_y=g_var.gui.main_win.winfo_y()+deltay
             g_var.gui.main_win.geometry(f"+{new_x}+{new_y}")
             g_var.gui.cover_stack[0].geometry(f"+{new_x}+{new_y}")
+            g_var.gui.cover_stack[1].geometry(f"+{new_x}+{new_y}")
+            g_var.gui.cover_stack[2].geometry(f"+{new_x}+{new_y}")
+            g_var.gui.cover_stack[3].geometry(f"+{new_x}+{new_y}")
 
     # 处理鼠标释放事件
     @classmethod
@@ -33,10 +36,19 @@ class MoveWin:
         cls.winx=0
         cls.winy=0
         g_var.gui.cover_stack[0].attributes('-topmost', 'false')
+        g_var.gui.cover_stack[1].attributes('-topmost', 'false')
+        g_var.gui.cover_stack[2].attributes('-topmost', 'false')
+        g_var.gui.cover_stack[3].attributes('-topmost', 'false')
 
-def top_win(event:tkinter.Event):
+def top_win(event:tkinter.Event): 
+    g_var.gui.cover_stack[3].attributes('-topmost', 'true')
+    g_var.gui.cover_stack[2].attributes('-topmost', 'true')
+    g_var.gui.cover_stack[1].attributes('-topmost', 'true')
     win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
-    g_var.gui.main_win.attributes('-topmost', 'true')
     g_var.gui.cover_stack[0].attributes('-topmost', 'true')
+    g_var.gui.main_win.attributes('-topmost', 'true')
     g_var.gui.main_win.attributes('-topmost', 'false')
     g_var.gui.cover_stack[0].attributes('-topmost', 'false')
+    g_var.gui.cover_stack[1].attributes('-topmost', 'false')
+    g_var.gui.cover_stack[2].attributes('-topmost', 'false')
+    g_var.gui.cover_stack[3].attributes('-topmost', 'false')

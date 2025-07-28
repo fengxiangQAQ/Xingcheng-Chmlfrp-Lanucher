@@ -57,7 +57,7 @@ class LoginMain(ctk.CTkFrame):
             img=Image.open(BytesIO(request.get(g_var.User.basicInfo["userimg"]).content))
             AvatarCircler(img).save("./XCL/userimg.png",'PNG')
             if self.ckb_KeepLogin.get()==1:
-                g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(g_var.gui.cover_stack[2],"将保存您的token以用于保持登录 您是否同意?\n注 重置token将无法保持登录",callbackFun=self.KeepLogin))
+                g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(g_var.gui.cover_stack[2],"将保存您的token以用于保持登录 您是否同意?\n注 重置token将无法保持登录",confirmText="同意",callbackFun=self.KeepLogin))
             else:
                 self.upLoginAfter()
         else:

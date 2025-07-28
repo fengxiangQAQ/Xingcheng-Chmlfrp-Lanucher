@@ -1,9 +1,11 @@
 import customtkinter as ctk
 import core.g_var
+import json
 
 from PIL import Image
 from core.object.gui.widgets.PanelButton import PanelRButton
 from core.object.gui.widgets.UpMenuButton import upMenuButton
+from core.object.gui.popWIN.ConfirmPopWin import ConfirmPopWin
 
 class homeFrame(ctk.CTkFrame):
     def __init__(self,master):
@@ -21,7 +23,17 @@ class sidebarFrame(ctk.CTkFrame):
         ctk.CTkLabel(self.name,text=core.g_var.User.basicInfo["username"],font=("微软雅黑",16)).pack(side="left")
         ctk.CTkLabel(self.name,text=f"#{core.g_var.User.id}",font=("微软雅黑",16),text_color="#808080").pack(side="left",padx=3)
         userInfoFrame(self).pack(pady=(16,0))
-        PanelRButton(self,text="退出登录").pack(pady=(16,0))
+        PanelRButton(self,text="退出登录",command=self.logOut).pack(pady=(16,0))
+
+    def logOut(self):
+        core.g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(core.g_var.gui.cover_stack[2],text="是否退出登录\n退出将取消保持登录并退出软件",callbackFun=self.callback))
+
+    def callback(self,b):
+        if b:
+            core.g_var.lanucherConfig.pop("user_token")
+            with open("./XCL/config.json","w") as file:
+                file.write(json.dumps(core.g_var.lanucherConfig))
+            core.g_var.gui.main_win.destroy()
 
 class userInfoFrame(ctk.CTkFrame):
     def __init__(self,master):

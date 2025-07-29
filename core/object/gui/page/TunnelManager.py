@@ -2,7 +2,7 @@ import customtkinter as ctk
 import win32clipboard
 
 from core.object.gui.widgets.PanelButton import PanelBButton,PanelRButton
-#from core.object.gui.widgets.tip_cover import TipCover
+from core.object.gui.widgets.tip import MouseFollowTip
 from core.object.gui.widgets.CTkFrameG import CTkFrameG
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
 from core.utils.runFrpc import runFrpc
@@ -45,15 +45,15 @@ class tunnelCard(CTkFrameG):
         cUrlLabel=ctk.CTkLabel(self,text="连接地址: "+self.cUrl,font=("微软雅黑",13))
         cUrlLabel.bind("<ButtonPress-1>",self.copyUrl)
         cUrlLabel.place(x=13,y=77)
-        #self.tip:TipCover=TipCover(self,cUrlLabel,text="点击以复制")
+        self.tip:MouseFollowTip=MouseFollowTip(core.g_var.gui.cover_stack[3],cUrlLabel,"点击以复制",fg_color="gray92")
         PanelBButton(self,text="启动隧道",width=219,command=self.startFrp).place(x=13,y=108)
         PanelRButton(self,text="删除隧道",width=219).place(x=13,y=143)
 
     def startFrp(self):
         runFrpc(frpcPath="./res/frpc.exe",runDir=".\XCL",userToken=core.g_var.User.token,tunnelID=self.tun_id)
         
-    def copyUrl(self,arg):
-        # self.tip.ctext("已复制")
+    def copyUrl(self,event):
+        self.tip.newText("已复制")
         win32clipboard.OpenClipboard()
         win32clipboard.EmptyClipboard()
         win32clipboard.SetClipboardData(win32clipboard.CF_UNICODETEXT,self.cUrl)

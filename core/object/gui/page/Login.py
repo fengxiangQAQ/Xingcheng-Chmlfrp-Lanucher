@@ -5,9 +5,11 @@ import json
 from io import BytesIO
 from PIL import Image
 from core.object.User import User
+from core.WinManager import addTip
 from core.utils.network.requests import request
 from core.utils.network.ChmlfrpApi import APIv2
 from core.utils.image.AvatarCircler import AvatarCircler
+from core.object.gui.widgets.tip import errorTopTip,successTopTip
 from core.object.gui.widgets.CTkFrameG import CTkFrameG
 from core.object.gui.popWIN.ConfirmPopWin import ConfirmPopWin
 
@@ -42,10 +44,9 @@ class LoginMain(ctk.CTkFrame):
                 AvatarCircler(img).save("./XCL/userimg.png",'PNG')
                 self.upLoginAfter()
             else:
-                self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="自动登录:token已失效",font=("微软雅黑",12.6),text_color="#ff0000")
+                addTip(errorTopTip(g_var.gui.cover_stack[3].CoverFrame,"保持登录:token已失效"))
         except:
-            self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="自动登录:网络请求错误",font=("微软雅黑",12.6),text_color="#ff0000") 
-        self.tip.place(x=176,y=183)
+            addTip(errorTopTip(g_var.gui.cover_stack[3].CoverFrame,"保持登录:网络请求错误"))
         self.login_B.configure(text="登录",state="normal")
 
     def userLogin(self):
@@ -61,8 +62,7 @@ class LoginMain(ctk.CTkFrame):
             else:
                 self.upLoginAfter()
         else:
-            self.tip:ctk.CTkLabel=ctk.CTkLabel(self,text="账号密码错误",font=("微软雅黑",12.6),text_color="#ff0000")
-        self.tip.place(x=176,y=183)
+            addTip(errorTopTip(g_var.gui.cover_stack[3].CoverFrame,"账号密码错误"))
         self.login_B.configure(text="登录",state="normal")
 
     def KeepLogin(self,b:bool):
@@ -73,6 +73,7 @@ class LoginMain(ctk.CTkFrame):
         self.upLoginAfter()
 
     def upLoginAfter(self):
+        addTip(successTopTip(g_var.gui.cover_stack[3].CoverFrame,f'欢迎登录 {g_var.User.basicInfo["username"]}'))
         g_var.gui.main_win.main_tab_view.delete("登录")
         g_var.gui.main_win.main_tab_view.delete("设置")
         g_var.gui.main_win.main_tab_view.add_tab("Home")

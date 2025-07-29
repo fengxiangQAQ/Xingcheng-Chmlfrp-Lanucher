@@ -1,3 +1,4 @@
+import customtkinter as ctk
 import win32gui
 import tkinter
 
@@ -52,3 +53,6 @@ def top_win(event:tkinter.Event):
     g_var.gui.cover_stack[1].attributes('-topmost', 'false')
     g_var.gui.cover_stack[2].attributes('-topmost', 'false')
     g_var.gui.cover_stack[3].attributes('-topmost', 'false')
+
+def addTip(tipFrame:ctk.CTkFrame):
+    tipFrame.pack(anchor="center",pady=(3,1))

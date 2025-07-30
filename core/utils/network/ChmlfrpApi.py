@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from core.utils.network.requests import request
 
 class APIv2:
@@ -39,7 +41,7 @@ class APIv2:
         
 class APIv1:
     
-    url="https://cf-v1.uapis.cn"
+    url="https://cf-v1.uapis.cn/api"
 
     @classmethod
     def reToken(cls,usertoken:str)->str:
@@ -50,3 +52,15 @@ class APIv1:
             return data["newToken"]
         else:
             return None
+        
+    @classmethod
+    def delTunnel(cls,usertoken:str,userID:int,tunnelID:int)->Tuple[bool,str]:
+        data:dict=request.get(cls.url+"/deletetl.php",{
+            "token":usertoken,
+            "userid":userID,
+            "nodeid":tunnelID
+        }).json()
+        if data["code"]==200:
+            return (True,data["error"])
+        else:
+            return (False,data["error"])

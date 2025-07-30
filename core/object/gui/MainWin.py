@@ -49,7 +49,7 @@ class Main(ctk.CTk):
         g_var.gui.cover_stack.append(CoverWin())
         g_var.gui.cover_stack.append(CoverWin(WINalpha=66))
         g_var.gui.cover_stack.append(CoverWin(WINalpha=255))
-        g_var.gui.cover_stack.append(CoverWin())
+        g_var.gui.cover_stack.append(CoverWin(WINalpha=235))
         g_var.gui.cover_stack[0].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
         g_var.gui.cover_stack[1].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")
         g_var.gui.cover_stack[2].geometry(f"+{self.winfo_x()}+{self.winfo_x()}")

@@ -3,6 +3,8 @@ import customtkinter as ctk
 import core.g_var
 from core.object.gui.widgets.CTkScrollableFrameFrame import CTkScrollableFrameFrame
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
+from core.object.gui.widgets.tip import successTopTip
+from core.WinManager import addTip
 from core.utils.runFrpc import runFrpc
 
 class upMenuButton(ctk.CTkFrame):
@@ -27,6 +29,7 @@ class upMenuButton(ctk.CTkFrame):
             self.menuButton.configure(text="⇩")
     def startFrp(self):
         runFrpc(frpcPath="./res/frpc.exe",runDir=".\XCL",userToken=core.g_var.User.token,tunnelID=self.chooseid)
+        addTip(successTopTip(core.g_var.gui.cover_stack[3].CoverFrame,"已拉起frpc核心"))
 
 class MenuFrame(CTkScrollableFrameFrame):
     def __init__(self,master:upMenuButton):

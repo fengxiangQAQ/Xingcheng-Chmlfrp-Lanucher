@@ -73,7 +73,6 @@ class LoginMain(ctk.CTkFrame):
         self.upLoginAfter()
 
     def upLoginAfter(self):
-        addTip(successTopTip(g_var.gui.cover_stack[3].CoverFrame,f'欢迎登录 {g_var.User.basicInfo["username"]}'))
         g_var.gui.main_win.main_tab_view.delete("登录")
         g_var.gui.main_win.main_tab_view.delete("设置")
         g_var.gui.main_win.main_tab_view.add_tab("Home")
@@ -82,6 +81,7 @@ class LoginMain(ctk.CTkFrame):
         g_var.gui.main_win.main_tab_view.set("Home")
         g_var.User.updateTunnel()
         g_var.gui.main_win.main_tab_view.upTabCoverWin()
+        addTip(successTopTip(g_var.gui.cover_stack[3].CoverFrame,f'欢迎登录 {g_var.User.basicInfo["username"]}'))
 
 class LoginInput(ctk.CTkFrame):
     def __init__(self,master:LoginMain):

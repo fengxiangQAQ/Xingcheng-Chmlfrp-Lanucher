@@ -42,12 +42,12 @@ class MoveWin:
         g_var.gui.cover_stack[3].attributes('-topmost', 'false')
 
 def top_win(event:tkinter.Event): 
-    g_var.gui.cover_stack[3].attributes('-topmost', 'true')
-    g_var.gui.cover_stack[2].attributes('-topmost', 'true')
-    g_var.gui.cover_stack[1].attributes('-topmost', 'true')
+    g_var.gui.main_win.attributes('-topmost', 'true')
     win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
     g_var.gui.cover_stack[0].attributes('-topmost', 'true')
-    g_var.gui.main_win.attributes('-topmost', 'true')
+    g_var.gui.cover_stack[1].attributes('-topmost', 'true')
+    g_var.gui.cover_stack[2].attributes('-topmost', 'true')
+    g_var.gui.cover_stack[3].attributes('-topmost', 'true')
     g_var.gui.main_win.attributes('-topmost', 'false')
     g_var.gui.cover_stack[0].attributes('-topmost', 'false')
     g_var.gui.cover_stack[1].attributes('-topmost', 'false')

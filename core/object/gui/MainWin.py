@@ -58,11 +58,11 @@ class Main(ctk.CTk):
         g_var.gui.cover_stack[1].setCoverFrame(g_var.gui.mask)
         g_var.gui.cover_stack[3].setCoverFrame(ctk.CTkFrame(g_var.gui.cover_stack[3],width=784,height=418,corner_radius=0,fg_color="#0000ff"))
         g_var.gui.cover_stack[3].CoverFrame.pack_propagate(False)
-        self.main_tab_view.upTabCoverWin()
 
     # Override
     def mainloop(self, *args, **kwargs):
         self.check_topmost()
+        self.main_tab_view.upTabCoverWin()
         super().mainloop(*args, **kwargs)
 
     # Override

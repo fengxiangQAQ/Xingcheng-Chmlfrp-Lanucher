@@ -42,17 +42,12 @@ class MoveWin:
         g_var.gui.cover_stack[3].attributes('-topmost', 'false')
 
 def top_win(event:tkinter.Event): 
+    for win in g_var.gui.cover_stack[::-1]:
+        win.attributes('-topmost', 'true')
     g_var.gui.main_win.attributes('-topmost', 'true')
-    win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
-    g_var.gui.cover_stack[0].attributes('-topmost', 'true')
-    g_var.gui.cover_stack[1].attributes('-topmost', 'true')
-    g_var.gui.cover_stack[2].attributes('-topmost', 'true')
-    g_var.gui.cover_stack[3].attributes('-topmost', 'true')
     g_var.gui.main_win.attributes('-topmost', 'false')
-    g_var.gui.cover_stack[0].attributes('-topmost', 'false')
-    g_var.gui.cover_stack[1].attributes('-topmost', 'false')
-    g_var.gui.cover_stack[2].attributes('-topmost', 'false')
-    g_var.gui.cover_stack[3].attributes('-topmost', 'false')
+    for win in g_var.gui.cover_stack:
+        win.attributes('-topmost', 'false')
 
 def addTip(tipFrame:ctk.CTkFrame):
     tipFrame.pack(anchor="center",pady=(3,1))

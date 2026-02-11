@@ -82,7 +82,10 @@ class Main(ctk.CTk):
             # 获取当前最上面的窗口句柄
             top_window = win32gui.GetForegroundWindow()
             if top_window == self.hwnd:
-                top_win(None)
+                for win in g_var.gui.cover_stack[::-1]:
+                    win.attributes('-topmost', 'true')
+                for win in g_var.gui.cover_stack:
+                    win.attributes('-topmost', 'false')
         except:
             pass
         # 继续循环检查

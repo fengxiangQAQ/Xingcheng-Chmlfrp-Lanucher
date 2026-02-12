@@ -1,4 +1,7 @@
 XCL/
+start.build/
+start.dist/
+nuitka-crash-report.txt
 frpc.ini
 frpc.toml
 # Byte-compiled / optimized / DLL files

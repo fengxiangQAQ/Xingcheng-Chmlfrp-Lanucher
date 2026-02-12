@@ -26,22 +26,17 @@ class MoveWin:
             new_x=g_var.gui.main_win.winfo_x()+deltax
             new_y=g_var.gui.main_win.winfo_y()+deltay
             g_var.gui.main_win.geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[0].geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[1].geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[2].geometry(f"+{new_x}+{new_y}")
-            g_var.gui.cover_stack[3].geometry(f"+{new_x}+{new_y}")
+            for win in g_var.gui.cover_stack:
+                win.geometry(f"+{new_x}+{new_y}")
 
     # 处理鼠标释放事件
     @classmethod
     def on_drag_stop(cls,event:tkinter.Event):
         cls.winx=0
         cls.winy=0
-        g_var.gui.cover_stack[0].attributes('-topmost', 'false')
-        g_var.gui.cover_stack[1].attributes('-topmost', 'false')
-        g_var.gui.cover_stack[2].attributes('-topmost', 'false')
-        g_var.gui.cover_stack[3].attributes('-topmost', 'false')
 
 def top_win(event:tkinter.Event): 
+    win32gui.SetForegroundWindow(g_var.gui.cover_stack[0].hwnd)
     for win in g_var.gui.cover_stack[::-1]:
         win.attributes('-topmost', 'true')
     g_var.gui.main_win.attributes('-topmost', 'true')

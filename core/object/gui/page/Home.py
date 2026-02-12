@@ -1,9 +1,10 @@
 import customtkinter as ctk
 import core.g_var
 import json
+import os
 
 from PIL import Image
-from core.object.gui.widgets.PanelButton import PanelRButton
+from core.object.gui.widgets.PanelButton import PanelRButton,PanelBButton
 from core.object.gui.widgets.UpMenuButton import upMenuButton
 from core.object.gui.popWIN.ConfirmPopWin import ConfirmPopWin
 
@@ -23,7 +24,12 @@ class sidebarFrame(ctk.CTkFrame):
         ctk.CTkLabel(self.name,text=core.g_var.User.basicInfo["username"],font=("微软雅黑",16)).pack(side="left")
         ctk.CTkLabel(self.name,text=f"#{core.g_var.User.id}",font=("微软雅黑",16),text_color="#808080").pack(side="left",padx=3)
         userInfoFrame(self).pack(pady=(16,0))
-        PanelRButton(self,text="退出登录",command=self.logOut).pack(pady=(16,0))
+        PanelBButton(self,text="签到!",command=self.qianDao,width=190).pack(pady=(16,0))
+        PanelRButton(self,text="退出登录",command=self.logOut,width=190).pack(pady=(8,0))
+
+    def qianDao(self):
+        core.g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(core.g_var.gui.cover_stack[2],text="请在弹出网页完成接下来操作\n签到完成即可关闭网页\n注: 启动器积分非实时刷新"))
+        os.system(f"start https://cf-qd.fxqaq.top/#{core.g_var.User.token}")
 
     def logOut(self):
         core.g_var.gui.cover_stack[2].setCoverFrame(ConfirmPopWin(core.g_var.gui.cover_stack[2],text="是否退出登录\n退出将取消保持登录并退出软件",callbackFun=self.callback))

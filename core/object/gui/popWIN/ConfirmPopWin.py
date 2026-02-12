@@ -8,7 +8,7 @@ from core.object.gui.widgets.CTkFrameG import CTkFrameG
 
 class ConfirmPopWin(PopWin):
 
-    def __init__(self, master,text:str,callbackFun:Callable[[bool],None],confirmText:str="确认",confirm_color=None,confirm_hover_color=None,title="提示"):
+    def __init__(self, master,text:str,callbackFun:Callable[[bool],None]=None,confirmText:str="确认",confirm_color=None,confirm_hover_color=None,title="提示"):
         super().__init__(master)
         main=ConfirmMain(self,text,callbackFun,confirmText,confirm_color=confirm_color,confirm_hover_color=confirm_hover_color,title=title)
         main.place(x=0,y=0)
@@ -28,9 +28,11 @@ class ConfirmMain(CTkFrameG):
         ctk.CTkButton(ButtonFrame,text=confirmText,command=self.confirm,width=0,fg_color=confirm_color,hover_color=confirm_hover_color).grid(row=0,column=1,padx=5)
 
     def confirm(self):
-        self.callbackFun(True)
+        if self.callbackFun is not None:
+            self.callbackFun(True)
         core.g_var.gui.cover_stack[2].setCoverFrame(ctk.CTkFrame(core.g_var.gui.cover_stack[2],fg_color="#0000ff"))
 
     def cancel(self):
-        self.callbackFun(False)
+        if self.callbackFun is not None:
+            self.callbackFun(False)
         core.g_var.gui.cover_stack[2].setCoverFrame(ctk.CTkFrame(core.g_var.gui.cover_stack[2],fg_color="#0000ff"))

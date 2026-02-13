@@ -10,7 +10,7 @@ from core.object.gui.widgets.MainTabView import MainTabView
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
 from core.object.gui.CoverWin import CoverWin
 from core.object.gui.page import Mask
-from core.WinManager import MoveWin,top_win
+from core.WinManager import MoveWin
 
 class Main(ctk.CTk):
     def __init__(self):

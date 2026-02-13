@@ -7,7 +7,7 @@ from core.object.gui.widgets.CTkFrameG import CTkFrameG
 from core.object.gui.widgets.CTkButtonG import CTkButtonG
 from core.object.gui.widgets.tip import successTopTip,errorTopTip
 from core.object.gui.popWIN.ConfirmPopWin import ConfirmPopWin
-from core.utils.network.ChmlfrpApi import APIv1
+from core.utils.network.ChmlfrpApi import APIv2
 from core.utils.runFrpc import runFrpc
 from core.WinManager import addTip
 import core.g_var
@@ -59,7 +59,7 @@ class tunnelCard(CTkFrameG):
 
     def confirm_deltunnel(self,b:bool):
         if b:
-            state,tip=APIv1.delTunnel(core.g_var.User.token,core.g_var.User.id,self.tun_id)
+            state,tip=APIv2.delTunnel(core.g_var.User.token,self.tun_id)
             if state:
                 addTip(successTopTip(core.g_var.gui.cover_stack[3].CoverFrame,tip))
             else:

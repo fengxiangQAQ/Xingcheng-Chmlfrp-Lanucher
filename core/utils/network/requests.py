@@ -22,18 +22,18 @@ class request:
         return urllib.request.urlopen(Request)
 
     @classmethod
-    def get(cls,url:str,params:dict=None)->re_requests:
+    def get(cls,url:str,params:dict=None,headers:dict={})->re_requests:
         if params is not None:
             qs=urllib.parse.urlencode(params)
             url+="?"+qs
-        Request=urllib.request.Request(url, headers=cls._headers)
+        Request=urllib.request.Request(url, headers={**cls._headers,**headers})
         return re_requests(cls._requests(Request))
 
     @classmethod
-    def post(cls,url:str,json:dict=None):
+    def post(cls,url:str,json:dict=None,headers:dict={}):
         if json is not None:
             _json=bytes(p_json.dumps(json).encode("utf-8"))
-            Request = urllib.request.Request(url,data=_json, headers=cls._headers)
+            Request = urllib.request.Request(url,data=_json, headers={**cls._headers,**headers})
         else:
-            Request = urllib.request.Request(url,data=bytes(), headers=cls._headers)
+            Request = urllib.request.Request(url,data=bytes(), headers={**cls._headers,**headers})
         return re_requests(cls._requests(Request))

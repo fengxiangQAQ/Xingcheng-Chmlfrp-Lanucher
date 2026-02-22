@@ -1,3 +1,4 @@
+# This file includes code derived from Tom Schimansky (c) 2023
 import customtkinter as ctk
 import tkinter
 import math
